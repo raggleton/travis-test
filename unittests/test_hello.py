@@ -26,6 +26,10 @@ class Simple_Test(unittest.TestCase):
         b = Bass(6)
         self.assertEqual(b.wubiness, 5)
 
+    def test_note(self):
+        b = Bass(6)
+        self.assertEqual(b.note(), 60)
+
 
 def main():
     return unittest.main()

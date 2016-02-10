@@ -3,6 +3,7 @@
 
 import sys
 import unittest
+from amodule.aclass import Adder
 
 
 class Simple_Test(unittest.TestCase):
@@ -16,10 +17,13 @@ class Simple_Test(unittest.TestCase):
     def test_add(self):
         self.assertEqual(1 + 2, 4)
 
+    def test_adder(self):
+        a = Adder()
+        self.assertEqual(a.add(10, 20), 40)
+
 
 def main():
-    x = unittest.main()
-    return x
+    return unittest.main()
 
 
 if __name__ == '__main__':

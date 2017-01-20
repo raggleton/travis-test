@@ -10,6 +10,9 @@ os:
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  - sudo apt-get update -q
+  - sudo apt-get install gcc-5.4 -y
   - wget https://root.cern.ch/download/root_v6.08.04.Linux-ubuntu16-x86_64-gcc5.4.tar.gz -O /tmp/root.tar.gz
   - tar -xvf /tmp/root.tar.gz
   - ls

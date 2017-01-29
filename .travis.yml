@@ -1,20 +1,29 @@
 language: python
+python:
+  - 2.7
+  - 3.4
+  - 3.5
+  - 3.6
+
+env:
+  - ROOT=5.34.32
+  - ROOT=6.04
+
 matrix:
-  include:
-    - python: 2.7
-      env: PYTHON=2.7 ROOT=5.34.32
-    - python: 2.7
-      env: PYTHON=2.7 ROOT=6.04
+  exclude:
+    # - python: 3.4
+    #   env: ROOT=5.34.32
+    - python: 3.5
+      env: ROOT=5.34.32
+#     - python: 3.6
+#       env: ROOT=5.34.32
 
-cache:
-  - apt
-
+# don't add osx, python not supported
 os:
   - linux
 
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then wget -nv http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh; fi
+  - if [[ ${TRAVIS_OS_NAME} == linux ]]; then wget -nv http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh; fi
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
@@ -23,19 +32,13 @@ install:
   - conda info -a # Useful for debugging any issues with conda
   - conda config --add channels http://conda.anaconda.org/NLeSC
   - conda config --set show_channel_urls yes
-  - conda create -q -n testenv python=${PYTHON} root=${ROOT} root-numpy numpy matplotlib nose sphinx pytables
+  - echo $TRAVIS_PYTHON_VERSION
+  - conda create -q -n testenv python=${TRAVIS_PYTHON_VERSION}
   - export CONDA_ENV_PATH=$HOME/miniconda/envs/testenv
   - source activate testenv
+  # - if [[ ${TRAVIS_PYTHON_VERSION} == 2* ]]; then conda install root=${ROOT}; fi  # only install ROOT for py2.7
+  - conda install root=${ROOT}
 
-  # - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  # - sudo apt-get update -q
-  # - sudo apt-get install gcc-5 -y
-  # - wget https://root.cern.ch/download/root_v6.08.04.Linux-ubuntu16-x86_64-gcc5.4.tar.gz -O /tmp/root.tar.gz
-  # - tar -xzf /tmp/root.tar.gz
-  # - ls
-  # - . root/bin/thisroot.sh
-
-# command to run tests, e.g. python setup.py test
 script:
   - which root
   - root -q -b test-root.C

@@ -13,8 +13,10 @@ env:
 # stop duplicate jobs
 matrix:
   exclude:
-    # - python: 3.4
-    #   env: ROOT=5.34.32
+    - python: 2.7
+      env: ROOT=NONE
+    - python: 3.4
+      env: ROOT=NONE
     - python: 3.5
       env: ROOT=5.34.32
     - python: 3.5
@@ -43,8 +45,7 @@ install:
   - conda create -q -n ${MYENV} python=${TRAVIS_PYTHON_VERSION}
   - export CONDA_ENV_PATH=$HOME/miniconda/envs/${MYENV}
   - source activate ${MYENV}
-  # - if [[ ${ROOT} != "" ]]; then conda install root=${ROOT}; fi
-  - conda install root=${ROOT}
+  - if [[ ${ROOT} != "NONE" ]]; then conda install root=${ROOT}; fi
   - source deactivate ${MYENV}
   - source activate ${MYENV}
 

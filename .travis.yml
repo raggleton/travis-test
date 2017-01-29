@@ -44,10 +44,10 @@ install:
   - MYENV=testenv
   - conda create -q -n ${MYENV} python=${TRAVIS_PYTHON_VERSION}
   - export CONDA_ENV_PATH=$HOME/miniconda/envs/${MYENV}
-  - source activate ${MYENV}
-  - if [[ ${ROOT} != "NONE" ]]; then conda install root=${ROOT}; fi
-  # - source deactivate ${MYENV}
   # - source activate ${MYENV}
+  - if [[ ${ROOT} != "NONE" ]]; then conda install --name ${MYENV} root=${ROOT}; fi
+  # - source deactivate ${MYENV}
+  - source activate ${MYENV}
 
 script:
   - which root
